@@ -28,27 +28,6 @@ The **Node.js SDK** provides a robust, TypeScript-first approach to creating NAN
 - 🎯 **TypeScript Native** - Full type safety and IntelliSense
 - 🔧 **Highly Customizable** - Extend every aspect of your agent
 
-<div align="center">
-
-```mermaid
-graph TB
-    A[Your Custom Logic] --> B[NANDA Core]
-    B --> C[Agent Bridge]
-    B --> D[API Server]
-    B --> E[Registry Client]
-    C --> F[Global Network]
-    D --> G[HTTP/WebSocket APIs]
-    E --> H[Agent Discovery]
-    
-    style A fill:#ff6b6b
-    style B fill:#4ecdc4
-    style F fill:#45b7d1
-    style G fill:#96ceb4
-    style H fill:#feca57
-```
-
-</div>
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -67,7 +46,12 @@ npm install nanda-node-sdk
 yarn add nanda-node-sdk
 ```
 
-### Your First Agent (5 minutes!)
+### My First Agent (5 minutes!)
+<img width="720" height="400" alt="image" src="https://github.com/user-attachments/assets/0bb2a633-47de-443e-bd05-3da9301a6118" />
+- Created and deployed a Nanda agent using the Base Agent SDK
+- Implemented full chat functionality with Claude 3.5 Sonnet
+- Set up all required API endpoints (health, chat, send, messages, agents/list)
+agent_id: agentm679929
 
 ```typescript
 import { NANDA, AgentConfig } from 'nanda-node-sdk';
@@ -120,53 +104,6 @@ node your-agent.js
 **🎉 That's it!** Your agent is now running and can communicate with other agents worldwide!
 
 ---
-
-## 🏗️ Architecture
-
-<div align="center">
-
-```mermaid
-graph LR
-    subgraph "Your Application"
-        A[Custom Logic]
-        B[Business Rules]
-        C[External APIs]
-    end
-    
-    subgraph "NANDA Core"
-        D[NANDA Class]
-        E[Message Improver]
-        F[Agent Bridge]
-    end
-    
-    subgraph "Communication Layer"
-        G[API Server]
-        H[WebSocket Server]
-        I[Registry Client]
-    end
-    
-    subgraph "External Services"
-        J[Global Registry]
-        K[Other Agents]
-        L[SSL Certificates]
-    end
-    
-    A --> D
-    B --> D
-    C --> D
-    D --> E
-    D --> F
-    F --> G
-    F --> H
-    F --> I
-    I --> J
-    G --> K
-    H --> K
-    L --> G
-    L --> H
-```
-
-</div>
 
 ### Core Components
 
@@ -694,44 +631,6 @@ describe('NANDA API Integration', () => {
      connectionTimeout: 30000
    });
    ```
-
-3. **Caching**
-   ```typescript
-   // Implement message caching
-   const cache = new Map();
-   
-   agent.getMessageImprover().register('cached', (message) => {
-     if (cache.has(message)) {
-       return cache.get(message);
-     }
-     
-     const improved = processMessage(message);
-     cache.set(message, improved);
-     return improved;
-   });
-   ```
-
-### Load Balancing
-
-```typescript
-// Run multiple instances
-const agents = [];
-const ports = [6000, 6002, 6004];
-
-for (let i = 0; i < ports.length; i++) {
-  const agent = new NANDA({
-    ...config,
-    port: ports[i],
-    apiPort: ports[i] + 1
-  });
-  
-  agents.push(agent);
-  await agent.start();
-}
-
-// Use nginx or similar for load balancing
-```
-
 ---
 
 ## 🔒 Security
