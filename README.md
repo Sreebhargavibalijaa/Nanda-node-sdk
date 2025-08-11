@@ -1,4 +1,4 @@
-# 🚀 NANDA Node.js SDK
+# --> NANDA Node.js SDK
 
 <div align="center">
 
@@ -16,7 +16,7 @@
 
 ---
 
-## 🌟 What is NANDA?
+## What is NANDA?
 
 **NANDA** (Network of Autonomous Neural Decision Agents) is a revolutionary framework for building AI agents that can communicate, collaborate, and learn from each other across the global internet.
 
@@ -28,7 +28,7 @@ The **Node.js SDK** provides a robust, TypeScript-first approach to creating NAN
 - 🎯 **TypeScript Native** - Full type safety and IntelliSense
 - 🔧 **Highly Customizable** - Extend every aspect of your agent
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -105,7 +105,7 @@ startAgent().catch(console.error);
 
 ---
 
-## 📚 Examples
+## Examples
 
 ### 1. Basic Agent
 
@@ -552,7 +552,7 @@ npm run format
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Anthropic** for providing the Claude API
 - **Node.js** community for the amazing runtime
