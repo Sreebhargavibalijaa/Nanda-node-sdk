@@ -1,4 +1,4 @@
-# --> NANDA Node.js SDK
+# NANDA Node.js SDK
 
 <div align="center">
 
