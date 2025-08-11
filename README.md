@@ -48,6 +48,7 @@ yarn add nanda-node-sdk
 
 ### My First Agent (5 minutes!)
 <img width="720" height="400" alt="image" src="https://github.com/user-attachments/assets/0bb2a633-47de-443e-bd05-3da9301a6118" />
+
 - Created and deployed a Nanda agent using the Base Agent SDK
 - Implemented full chat functionality with Claude 3.5 Sonnet
 - Set up all required API endpoints (health, chat, send, messages, agents/list)
@@ -90,19 +91,6 @@ async function startAgent() {
 
 startAgent().catch(console.error);
 ```
-
-### Run It!
-
-```bash
-# Set your API key
-export ANTHROPIC_API_KEY="your-key-here"
-
-# Run your agent
-node your-agent.js
-```
-
-**🎉 That's it!** Your agent is now running and can communicate with other agents worldwide!
-
 ---
 
 ### Core Components
@@ -258,35 +246,6 @@ LOG_LEVEL=info
 REGISTRY_URL=https://registry.nanda.ai
 ```
 
-### Configuration Object
-
-```typescript
-interface AgentConfig {
-  // Required
-  anthropicApiKey: string;
-  domain: string;
-  
-  // Optional
-  agentId?: string;           // Auto-generated if not provided
-  port?: number;              // Default: 6000
-  apiPort?: number;           // Default: 6001
-  ssl?: boolean;              // Default: false
-  logLevel?: 'debug' | 'info' | 'warn' | 'error';
-  registryUrl?: string;       // Default: https://chat.nanda-registry.com:6900
-  
-  // Advanced
-  customHeaders?: Record<string, string>;
-  rateLimit?: {
-    windowMs: number;
-    maxRequests: number;
-  };
-  cors?: {
-    origin: string | string[];
-    credentials: boolean;
-  };
-}
-```
-
 ---
 
 ## 🌐 Deployment
@@ -318,21 +277,7 @@ sudo apt update && sudo apt install -y nodejs npm certbot
 # CentOS/RHEL
 sudo yum install -y nodejs npm certbot
 ```
-
-#### 2. SSL Certificates
-
-```bash
-# Generate certificates
-sudo certbot certonly --standalone -d yourdomain.com
-
-# Copy to your app directory
-sudo cp -L /etc/letsencrypt/live/yourdomain.com/fullchain.pem .
-sudo cp -L /etc/letsencrypt/live/yourdomain.com/privkey.pem .
-sudo chown $USER:$USER fullchain.pem privkey.pem
-chmod 600 fullchain.pem privkey.pem
-```
-
-#### 3. Run Your Agent
+#### 2. Run Your Agent
 
 ```bash
 # Set environment variables
@@ -345,36 +290,6 @@ nohup node your-agent.js > agent.log 2>&1 &
 # Monitor logs
 tail -f agent.log
 ```
-
-#### 4. Systemd Service (Optional)
-
-```ini
-# /etc/systemd/system/nanda-agent.service
-[Unit]
-Description=NANDA AI Agent
-After=network.target
-
-[Service]
-Type=simple
-User=youruser
-WorkingDirectory=/path/to/your/agent
-Environment=ANTHROPIC_API_KEY=your-key-here
-Environment=DOMAIN_NAME=yourdomain.com
-ExecStart=/usr/bin/node your-agent.js
-Restart=always
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-```
-
-```bash
-# Enable and start service
-sudo systemctl enable nanda-agent
-sudo systemctl start nanda-agent
-sudo systemctl status nanda-agent
-```
-
 ---
 
 ## 📊 API Reference
@@ -519,47 +434,7 @@ console.log('Registry connection:', capabilities.registryConnection);
 
 ---
 
-## 🧪 Testing
-
-### Unit Tests
-
-```typescript
-import { NANDA } from 'nanda-node-sdk';
-
-describe('NANDA Agent', () => {
-  let agent: NANDA;
-  
-  beforeEach(() => {
-    agent = new NANDA({
-      agentId: 'test-agent',
-      anthropicApiKey: 'test-key',
-      domain: 'localhost'
-    });
-  });
-  
-  afterEach(async () => {
-    await agent.stop();
-  });
-  
-  it('should start successfully', async () => {
-    await expect(agent.start()).resolves.not.toThrow();
-    expect(agent.isAgentRunning()).toBe(true);
-  });
-  
-  it('should process messages', async () => {
-    await agent.start();
-    
-    const result = await agent.processMessage({
-      id: 'test-1',
-      content: [{ content: 'Hello world' }],
-      role: 'user',
-      conversationId: 'conv-1'
-    });
-    
-    expect(result.improvedContent).toBeDefined();
-  });
-});
-```
+## Testing
 
 ### Integration Tests
 
@@ -609,7 +484,7 @@ describe('NANDA API Integration', () => {
 
 ---
 
-## 🚀 Performance & Scaling
+## Performance & Scaling
 
 ### Optimization Tips
 
@@ -633,52 +508,7 @@ describe('NANDA API Integration', () => {
    ```
 ---
 
-## 🔒 Security
-
-### SSL/TLS Configuration
-
-```typescript
-const agent = new NANDA({
-  ...config,
-  ssl: true,
-  sslOptions: {
-    cert: fs.readFileSync('./fullchain.pem'),
-    key: fs.readFileSync('./privkey.pem'),
-    ca: fs.readFileSync('./chain.pem')
-  }
-});
-```
-
-### Authentication
-
-```typescript
-// Custom authentication middleware
-agent.getApiServer().use((req, res, next) => {
-  const token = req.headers.authorization?.replace('Bearer ', '');
-  
-  if (!isValidToken(token)) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-  
-  next();
-});
-```
-
-### Rate Limiting
-
-```typescript
-const agent = new NANDA({
-  ...config,
-  rateLimit: {
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    maxRequests: 100 // limit each IP to 100 requests per windowMs
-  }
-});
-```
-
----
-
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Here's how to get started:
 
@@ -722,36 +552,6 @@ npm run format
 
 ---
 
-## 📚 Additional Resources
-
-### Documentation
-
-- [API Reference](https://docs.nanda.ai/node-sdk)
-- [Architecture Guide](https://docs.nanda.ai/architecture)
-- [Deployment Guide](https://docs.nanda.ai/deployment)
-- [Best Practices](https://docs.nanda.ai/best-practices)
-
-### Community
-
-- [Discord Server](https://discord.gg/nanda)
-- [GitHub Discussions](https://github.com/yourusername/nanda-node-sdk/discussions)
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/nanda)
-- [Blog](https://blog.nanda.ai)
-
-### Examples & Templates
-
-- [Basic Agent Template](https://github.com/yourusername/nanda-node-sdk/tree/main/templates/basic)
-- [LangChain Integration](https://github.com/yourusername/nanda-node-sdk/tree/main/templates/langchain)
-- [Production Setup](https://github.com/yourusername/nanda-node-sdk/tree/main/templates/production)
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 🙏 Acknowledgments
 
 - **Anthropic** for providing the Claude API
@@ -760,11 +560,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **All contributors** who make NANDA possible
 
 ---
-
-<div align="center">
-
-**Built with ❤️ by the NANDA Team**
-
-[Website](https://nanda.ai) • [GitHub](https://github.com/yourusername/nanda-node-sdk) • [Discord](https://discord.gg/nanda)
-
-</div> 
