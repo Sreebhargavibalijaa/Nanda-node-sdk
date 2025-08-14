@@ -17,8 +17,7 @@
 ---
 
 ## What is NANDA?
-
-**NANDA** (Network of Autonomous Neural Decision Agents) is a revolutionary framework for building AI agents that can communicate, collaborate, and learn from each other across the global internet.
+**NANDA: The Internet of AI Agents**is a revolutionary framework for building AI agents that can communicate, collaborate, and learn from each other across the global internet.
 
 The **Node.js SDK** provides a robust, TypeScript-first approach to creating NANDA agents with enterprise-grade features:
 
